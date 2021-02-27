@@ -33,10 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-//        @objc func addBlur(_ notification: Notification) {
         effectView.frame = CGRect(x: 0, y: 0, width: self.window!.bounds.width, height: self.window!.bounds.height)
         window!.addSubview(effectView)
-//        }
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
