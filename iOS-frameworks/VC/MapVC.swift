@@ -20,7 +20,7 @@ class MapVC: UIViewController {
     
     let coordinate = CLLocationCoordinate2D(latitude: 55.753215, longitude: 37.622504)
     var marker: GMSMarker?
-    var locationManager: CLLocationManager?
+    var locationManager = LocationManager.instance
     var route: GMSPolyline?
     var routePath: GMSMutablePath?
     
@@ -61,17 +61,13 @@ class MapVC: UIViewController {
         route = GMSPolyline()
         routePath = GMSMutablePath()
         route?.map = mapView
-        locationManager?.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
     }
     
     @objc func stopTrack() {
         stopTrackButton.pulsate()
         stopTrackButton.flash()
-        
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
-        }
+
         var dotsArray : [RouteDots]  = []
         for i in 0..<(routePath!.count() ) {
             let model = RouteDots()
@@ -79,8 +75,8 @@ class MapVC: UIViewController {
             model.longitude = routePath?.coordinate(at: i).longitude.description
             dotsArray.append(model)
         }
-        saveDataBase(dotsArray)
-        locationManager?.stopUpdatingLocation()
+        RealmService.saveDataToRealm(dotsArray)
+        locationManager.stopUpdatingLocation()
     }
     
     // MARK: - Save to Data Base
@@ -102,14 +98,16 @@ class MapVC: UIViewController {
     }
     
     func configureLocationManager() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.distanceFilter = 100.0;
-        locationManager?.allowsBackgroundLocationUpdates = true
-        locationManager?.pausesLocationUpdatesAutomatically = false
-        locationManager?.startMonitoringSignificantLocationChanges()
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestAlwaysAuthorization()
+        locationManager
+            .location
+            .asObservable()
+            .bind { [weak self] location in
+                guard let location = location else { return }
+                self?.routePath?.add(location.coordinate)
+                self?.route?.path = self?.routePath
+                let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
+                self?.mapView.animate(to: position)
+            }
     }
     
     func configureButtons() {
