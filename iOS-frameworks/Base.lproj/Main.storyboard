@@ -203,6 +203,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="4FD-wA-4eD"/>
                     <connections>
+                        <outlet property="enterBtn" destination="YE0-iP-05g" id="W73-1l-2pB"/>
                         <outlet property="loginTF" destination="OID-B4-Fc4" id="XTa-70-IIK"/>
                         <outlet property="passwordTF" destination="R9C-WM-s8h" id="lqn-1p-beO"/>
                     </connections>

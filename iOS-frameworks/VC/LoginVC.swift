@@ -6,18 +6,24 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class LoginVC: UIViewController {
     
     @IBOutlet weak var loginTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
+    @IBOutlet weak var enterBtn: UIButton!
     
     var loginRouter: LoginRouter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loginRouter = LoginRouter(vc: self)
+        loginBinding()
     }
+    
+    // MARK: - Actions
     
     @IBAction func loginTapped(_ sender: UIButton) {
         UserDefaults.standard.set(true, forKey: "isLogin")
@@ -30,6 +36,8 @@ class LoginVC: UIViewController {
     @IBAction func registerTapped(_ sender: UIButton) {
         loginRouter.toRegister()
     }
+    
+    // MARK: - Authorize
 
     func authorize(login : String, password : String){
         let dataFromRealm : [User] = RealmService.getDataFromRealm(with: "login == '\(login)' AND password == '\(password)'")
@@ -39,8 +47,24 @@ class LoginVC: UIViewController {
         } else {
             loginRouter.toMain()
         }
-    }   
+    }
+    
+    // MARK: - RX
+    
+    func loginBinding() {
+        Observable.combineLatest(
+            loginTF.rx.text,
+            passwordTF.rx.text
+        ).map { login, password in
+            return !(login ?? "").isEmpty && (password ?? "").count >= 3
+        }.bind { [weak enterBtn] inputFilled in
+            enterBtn?.isEnabled = inputFilled
+            enterBtn?.setTitleColor(inputFilled ? UIColor.systemBlue : UIColor.gray, for: .normal)
+        }
+    }
 }
+
+// MARK: - Router
 
 final class LoginRouter: BaseRouter {
     func toMain() {

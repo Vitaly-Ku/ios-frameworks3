@@ -9,5 +9,7 @@ target 'iOS-frameworks' do
 
 pod 'GoogleMaps'
 pod 'RealmSwift', '~> 4.4.1'
+pod 'RxSwift', '6.1.0'
+pod 'RxCocoa', '6.1.0'
 
 end
