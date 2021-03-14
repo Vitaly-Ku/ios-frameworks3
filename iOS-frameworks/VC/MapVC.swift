@@ -23,6 +23,7 @@ class MapVC: UIViewController {
     var locationManager = LocationManager.instance
     var route: GMSPolyline?
     var routePath: GMSMutablePath?
+    var img : UIImage? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,18 @@ class MapVC: UIViewController {
         
     }
     
+//    func configureLocationManager() {
+//        locationManager
+//            .location
+//            .asObservable()
+//            .bind { [weak self] location in
+//                guard let location = location else { return }
+//                self?.routePath?.add(location.coordinate)
+//                self?.route?.path = self?.routePath
+//                let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
+//                self?.mapView.animate(to: position)
+//            }
+//    }
     func configureLocationManager() {
         locationManager
             .location
@@ -107,6 +120,14 @@ class MapVC: UIViewController {
                 self?.route?.path = self?.routePath
                 let position = GMSCameraPosition.camera(withTarget: location.coordinate, zoom: 17)
                 self?.mapView.animate(to: position)
+                if self?.marker != nil {
+                    self?.marker!.map = nil
+                }
+                self?.marker = GMSMarker(position: location.coordinate)
+                if let image = self?.img {
+                    self?.marker!.icon =  self?.drawImageWithProfilePic(pp: image, image: GMSMarker.markerImage(with: .red))
+                }
+                self?.marker!.map = self?.mapView
             }
     }
     
@@ -144,5 +165,34 @@ extension MapVC: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
+    }
+    
+    func drawImageWithProfilePic(pp: UIImage, image: UIImage) -> UIImage {
+        
+        let imgView = UIImageView(image: image)
+        let picImgView = UIImageView(image: pp)
+        picImgView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        imgView.addSubview(picImgView)
+        picImgView.center.x = imgView.center.x
+        picImgView.center.y = imgView.center.y - 7
+        picImgView.layer.cornerRadius = picImgView.frame.width/2
+        picImgView.clipsToBounds = true
+        imgView.setNeedsLayout()
+        picImgView.setNeedsLayout()
+        
+        let newImage = imageWithView(view: imgView)
+        return newImage
+    }
+    
+    func imageWithView(view: UIView) -> UIImage {
+        var image: UIImage?
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
+        if let context = UIGraphicsGetCurrentContext() {
+            view.layer.render(in: context)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
+        return image ?? UIImage()
     }
 }
