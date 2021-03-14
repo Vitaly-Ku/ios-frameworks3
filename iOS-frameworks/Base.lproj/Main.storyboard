@@ -187,6 +187,17 @@
                                     <action selector="registerTapped:" destination="9MM-HA-dvM" eventType="touchUpInside" id="Ihd-RR-2Po"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b1x-LT-Py7">
+                                <rect key="frame" x="100" y="265" width="120" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="GNj-6R-qDT"/>
+                                </constraints>
+                                <state key="normal" title="Аватарка"/>
+                                <connections>
+                                    <action selector="takePicture:" destination="9MM-HA-dvM" eventType="touchUpInside" id="e1r-LC-Orh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="g5D-gI-bKO"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -197,7 +208,9 @@
                             <constraint firstItem="YE0-iP-05g" firstAttribute="centerX" secondItem="FXM-85-7Kb" secondAttribute="centerX" id="I0n-91-hRS"/>
                             <constraint firstItem="OID-B4-Fc4" firstAttribute="centerX" secondItem="FXM-85-7Kb" secondAttribute="centerX" id="K3P-eN-YhK"/>
                             <constraint firstItem="R9C-WM-s8h" firstAttribute="centerX" secondItem="FXM-85-7Kb" secondAttribute="centerX" id="WyF-Qu-dTN"/>
+                            <constraint firstItem="b1x-LT-Py7" firstAttribute="centerX" secondItem="FXM-85-7Kb" secondAttribute="centerX" id="ZfO-Q8-wb1"/>
                             <constraint firstItem="wfW-vv-dDj" firstAttribute="centerY" secondItem="FXM-85-7Kb" secondAttribute="centerY" id="ndz-IG-AyT"/>
+                            <constraint firstItem="b1x-LT-Py7" firstAttribute="centerY" secondItem="FXM-85-7Kb" secondAttribute="centerY" constant="40" id="plM-Q7-ngG"/>
                             <constraint firstItem="R9C-WM-s8h" firstAttribute="centerY" secondItem="FXM-85-7Kb" secondAttribute="centerY" constant="-80" id="wNC-m0-Arp"/>
                         </constraints>
                     </view>
@@ -218,7 +231,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iGD-qg-IlZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wbq-cI-Ok9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -294,7 +307,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Bh-Ip-Ubi" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Hpc-jM-4m1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
